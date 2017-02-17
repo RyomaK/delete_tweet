@@ -21,13 +21,13 @@ end
 def delete
     i = 0
   while true
-    @twitter.user_timeline(:count => 200, :page => i).each do |elem|
-  if elem["id"] then
-    @twitter.status_destroy(elem["id"])
-  else
-    break
+      @twitter.user_timeline(:count => 200, :page => i).each do |elem|
+    if elem["id"] then
+      @twitter.status_destroy(elem["id"])
+    else
+      break
+    end
   end
-   end
    i += 1
 end
 
