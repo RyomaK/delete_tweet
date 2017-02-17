@@ -5,8 +5,8 @@ enable :sessions
 
 before do
   @twitter = TwitterOAuth::Client.new(
-      :consumer_key => ENV["CK"],
-      :consumer_secret => ENV["CS"],
+    :consumer_key => ENV["CK"],
+    :consumer_secret => ENV["CS"],
       )
 
 end
@@ -19,27 +19,27 @@ def base_url
 end
 
 def delete
-		i = 0
-	while true
- 		 @twitter.user_timeline(:count => 200, :page => i).each do |elem|
- 		 	if elem["id"] then
- 		 		@twitter.status_destroy(elem["id"])
- 		 	else
- 		 		break
- 		 	end
- 		 end
- 		 i += 1
-	end
+    i = 0
+  while true
+    @twitter.user_timeline(:count => 200, :page => i).each do |elem|
+  if elem["id"] then
+    @twitter.status_destroy(elem["id"])
+  else
+    break
+  end
+   end
+   i += 1
+end
 
-	@twitter.update(twitter api テスト)
+  @twitter.update(twitter api テスト)
 end
 
 get '/' do
-	erb :delete
+  erb :delete
 end
 
 get '/delete_finish' do
-	erb :delete_finish
+  erb :delete_finish
 end
 
 get '/request_token' do
@@ -57,15 +57,16 @@ get '/access_token' do
   rescue OAuth::Unauthorized => @exception
     return erb :authorize_fail
   end
-
+  #access token
   session[:access_token] = @access_token.token
   session[:access_token_secret] = @access_token.secret
 
- # p @twitter
+  #put
   p session[:access_token]
   p session[:access_token_secret]
-
   p @twitter
+
+  #delete method
   delete
 
   redirect '/delete_finish'
